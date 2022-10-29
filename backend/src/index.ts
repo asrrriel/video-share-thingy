@@ -147,15 +147,15 @@ export async function main() {
 			response.statusCode = 200;
 			response.setHeader('Content-Type', 'text/html; charset=UTF-8');
 
-			response.write(
-				`${style}<h1>List of Videos</h1><ul>${(
-					await videos.find({})
-				).map((video) => {
+			const items = (await videos.find({}))
+				.map((video) => {
 					return `<li><a href="/videos/${
 						video.id
 					}">${video.name.replace(/[^a-z0-9_\.\-]+/gi, '')}</a></li>`;
-				})}</ul>`
-			);
+				})
+				.join('');
+
+			response.write(`${style}<h1>List of Videos</h1><ul>${items}</ul>`);
 
 			return response.end();
 		}
