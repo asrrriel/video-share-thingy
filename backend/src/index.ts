@@ -49,6 +49,13 @@ export async function main() {
 		type: 'string',
 	});
 
+	const style = `<style> * {
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #242424;
+} </style>
+`;
+
 	const server = http.createServer(async (request, response) => {
 		const url = new URL(request.url || '/', 'a://b');
 
@@ -134,6 +141,23 @@ export async function main() {
 				response.write(payload);
 				response.end();
 			});
+		}
+
+		if (url.pathname === '/videos.html') {
+			response.statusCode = 200;
+			response.setHeader('Content-Type', 'text/html; charset=UTF-8');
+
+			response.write(
+				`${style}<h1>List of Videos</h1><ul>${(
+					await videos.find({})
+				).map((video) => {
+					return `<li><a href="/videos/${
+						video.id
+					}">${video.name.replace(/[^a-z0-9_\.\-]+/gi, '')}</a></li>`;
+				})}</ul>`
+			);
+
+			return response.end();
 		}
 
 		const fspath = path.resolve(

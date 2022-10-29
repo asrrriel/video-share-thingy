@@ -44,4 +44,8 @@
 			</li>
 		{/each}
 	</ul>
+
+	<p>
+		<a href="/videos.html" {target} {rel}>List of all uploaded videos</a>
+	</p>
 </main>
