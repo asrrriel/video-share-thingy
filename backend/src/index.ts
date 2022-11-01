@@ -79,8 +79,8 @@ export async function main() {
 
 					let [start, end] = range;
 
-					if (end > start + 1024 * 256) {
-						end = start + 1024 * 256;
+					if (end >= start + 1024 * 256) {
+						end = start + 1024 * 256 - 1;
 					}
 
 					response.setHeader('Content-Type', video.type);
